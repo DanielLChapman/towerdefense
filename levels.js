@@ -1,5 +1,24 @@
+var startCountdown = function() {
+    waveCountdown-=1;
+    if (waveCountdown == 0 && countDown) {
+        level += 1;
+        startLevels(level, 0);
+        waveCountdown = 120;
+        countDown = false;
+    }
+    else {
+        setTimeout(function() {
+            if (countDown) {
+                startCountdown();
+            }
+        }, 150);
+    }
+}
 var startLevels = function(palevel, i) {
     var i = i;
+    if (dead || win) {
+        i = 100000000;
+    }
     switch (palevel) {
         case 1: 
             if ( i < 10) {
@@ -9,6 +28,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 500);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 2:
@@ -22,6 +45,10 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 400);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
         case 3:
             if ( i < 20) {
@@ -34,6 +61,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 400);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 3:
@@ -50,6 +81,10 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 300);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
         case 4:
             if ( i < 22) {
@@ -64,6 +99,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 300);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 5:
@@ -80,6 +119,10 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 300);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
         case 6:
             if ( i < 30) {
@@ -94,6 +137,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 300);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 7:
@@ -110,6 +157,10 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 250);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
         case 8: 
             if ( i < 50) {
@@ -124,6 +175,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 250);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 9:
@@ -140,6 +195,10 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 200);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
         case 10:
             if (i < 60) {
@@ -153,6 +212,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 100);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 11:
@@ -171,6 +234,10 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 100);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
         case 12:
             if (i < 100) {
@@ -188,6 +255,10 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 100);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
         case 13:
             if (i < 100) {
@@ -204,6 +275,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 200);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 14:
@@ -224,6 +299,10 @@ var startLevels = function(palevel, i) {
                 setTimeout(function() {
                     startLevels(palevel, i);
                 }, 100);
+            }
+            else {
+                startCountdown();
+                countDown = true;
             }
             break;
         case 15:
@@ -248,6 +327,14 @@ var startLevels = function(palevel, i) {
                     startLevels(palevel, i);
                 }, 100);
             }
+            else {
+                startCountdown();
+                countDown = true;
+            }
             break;
+        case 16:
+            if (particles.length <= 0&&health > 0) {
+                win = true;
+            }
     }
 }

@@ -42,9 +42,6 @@ var Parti = function(id, partiLevel) {
         }
         this.inMap.push(temp);
     }
-    //for (var x = 0; x < squares.length; x++) {
-    //    this.inMap.push(squares[x].slice(0));
-    //}
     this.squareRow = 1;
     this.squareColumn = 0;
     this.moving = true;
@@ -55,37 +52,45 @@ var Parti = function(id, partiLevel) {
     if (partiLevel == 2) {
         this.health = 125;
         this.value = 30;
+        this.fillS = "rgb(155,255,255)";
         this.speed = 10;
     }
     if (partiLevel == 3) {
         this.health = 225;
         this.value = 40;
+        this.fillS = "rgb(155,130,255)";
         this.speed = 2.5;
     }
     if (partiLevel == 4) {
         this.health = 1000;
         this.value = 100;
         this.speed = 1;
+        this.fillS = "rgb(255,155,25)";
     }
     if (partiLevel == 5) {
         this.health = 5000;
         this.value = 100;
         this.speed = 1;
+        this.fillS = "rgb(55,155,255)";
     }
     if (partiLevel == 6) {
         this.health = 10000;
         this.value = 200;
         this.speed = 5;
+        this.fillS = "rgb(255,255,0)";
     }
     if (partiLevel == 7) {
         this.health = 2000;
         this.value = 15;
         this.speed = 5;
+        this.fillS = "rgb(0,155,205)";
     }
     if (partiLevel == 8) {
         this.health = 2000;
         this.value = 150;
         this.speed = 10;
+        this.fillS = "rgba(0,0,0,0)";
+        this.strokeS = "rgb(255,125,50)";
     }
 }
 Parti.prototype = {

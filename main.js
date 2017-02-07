@@ -24,6 +24,8 @@ var partiID = 0;
 var money = 500;
 var health = 15;
 var level = 0;
+var waveCountdown = 120;
+var countDown = false;
 
 var boxOpened = false;
 var boxDirectionX = "right"; //(left, right)
@@ -36,6 +38,9 @@ var hover = false;
 var lastSquare = [0,0];
 var selected = 0;
 var shopStrokeStyle = ["rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)"];
+
+var dead = false;
+var win = false;
 
 Array.prototype.clone = function() {
 	return this.slice(0);
@@ -57,6 +62,9 @@ var drawText = function( text, x, y, fill, fontRules) {
     ctx.font=fontRules;
     ctx.fillStyle = fill;
     ctx.fillText(text, x, y);
+    ctx.strokeStyle = "rgb(0,0,0)";
+    ctx.stroke();
+    
 }
 var drawBox = function( x, y, width, height, fill, strokeVar) {
     ctx.beginPath();
@@ -102,6 +110,9 @@ var render = function() {
     //Next Level
     drawBox(1010, 320, 80, 50, "rgba(46,56,66, 1.0)", "rgb(0,0,0)");
     drawText("Next Wave", 1020, 350, "rgb(255,255,255)", "11px Arial");
+    
+    drawText("Countdown", 1010, 400, "rgb(255,255,255)", "11px Arial");
+    drawText(waveCountdown, 1010, 430, "rgb(255,255,255)", "11px Arial");
 
     for (var i = 0; i < particles.length; i++) {
         particles[i].update();
@@ -110,8 +121,8 @@ var render = function() {
             particles.splice(i, 1);
             i--;
             health -= 1;
-            if (health <= 0) {
-                console.log("dead");
+            if (health < 0) {
+                dead = true;
             }
         }
     }
@@ -122,6 +133,11 @@ var render = function() {
         drawBox(towers[i].x+5, towers[i].y+5, towers[i].width-10, towers[i].height-10, towers[i].fill, "rgb(0,0,0)");
         if (towers[i].upgradeCost[towers[i].upgradeLevel] <= money) {
             drawText("+", towers[i].x+10, towers[i].y+20, "rgb(255,255,255)", "14px Arial");
+        }
+    }
+    //Need to do this to prevent a hover issue with the previous for loop, not sure on the best way of resolving this.
+    for (var i = 0; i < towers.length; i++) {
+        if (towers[i].upgradeCost[towers[i].upgradeLevel] <= money) {
             if (towers[i].hovered ) {
                 var tx = 0;
                 var ty = 0;
@@ -242,17 +258,30 @@ $(document).ready(function() {
     
     
     setInterval(function() {
-        render();
-        for (var i = 0; i < particles.length; i++) {
-            var tempArr = compareShots(particles[i].x, particles[i].y, 9);
-            if (tempArr[0]) {
-                particles[i].health -= shots[tempArr[1]].damage;
-                shots.splice(tempArr[1], 1);
-                if (particles[i].health <= 0) {
-                    money += particles[i].value;
-                    particles.splice(i, 1);
-                    i--;
+        if (!dead && !win) {
+            if (level > 15) {
+                level = 15;
+            }
+            render();
+            for (var i = 0; i < particles.length; i++) {
+                var tempArr = compareShots(particles[i].x, particles[i].y, 9);
+                if (tempArr[0]) {
+                    particles[i].health -= shots[tempArr[1]].damage;
+                    shots.splice(tempArr[1], 1);
+                    if (particles[i].health <= 0) {
+                        money += particles[i].value;
+                        particles.splice(i, 1);
+                        i--;
+                    }
                 }
+            }
+        }
+        else {
+            if (dead) {
+                drawText("You Died on Level: " + level, (cw/2-150), 250, "rgb(255,255,255)", "24px Arial");
+            }
+            else if (win){
+                drawText("You Win " + level, (cw/2-50), 250, "rgb(255,155,55)", "24px Arial");
             }
         }
     }, 1000/60);
